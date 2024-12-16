@@ -1,0 +1,47 @@
+.admin-container {
+  min-height: 100vh;
+  background-color: #e7f2fd;
+}
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-content {
+  flex: 1;
+  padding-left: 20rem;
+  padding-top: 5rem;
+  padding-right: 2rem;
+  background-color: #e7f2fd;
+  min-height: 100vh;
+}
+
+.admin-content2 {
+  flex: 1;
+  /* padding-left: 20rem;
+  padding-top: 5rem; */
+  background-color: #e7f2fd;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+  .admin-content {
+    padding-left: 0;
+    padding-top: 4rem;
+  }
+}
+
+/* Reset any conflicting styles for admin section */
+.admin-container .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Ensure admin content doesn't conflict with main app */
+.admin-container * {
+  box-sizing: border-box;
+}
+  
