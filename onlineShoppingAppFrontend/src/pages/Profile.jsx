@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaUser, FaEnvelope, FaUserTag } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
     const loggedInUser = useSelector(state => state.auth.loggedInUser);
+    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8 animate-fadeIn">
@@ -18,7 +20,7 @@ export default function Profile() {
                                 </span>
                             </div>
                         </div>
-                        <h1 className="text-white text-center mt-4 text-3xl font-bold">
+                        <h1 className="w-full flex justify-center text-white text-center mt-4 text-3xl font-bold">
                             {loggedInUser.name}
                         </h1>
                     </div>
@@ -30,7 +32,7 @@ export default function Profile() {
                                 <FaUser className="text-2xl text-blue-600" />
                                 <div>
                                     <p className="text-sm text-gray-500">Name</p>
-                                    <p className="text-lg font-semibold text-gray-800">
+                                    <p className="text-lg font-semibold text-gray-800 text-center">
                                         {loggedInUser.name}
                                     </p>
                                 </div>
@@ -59,7 +61,7 @@ export default function Profile() {
 
                         <button className="mt-8 w-full bg-blue-600 text-white py-3 rounded-xl font-semibold 
                             hover:bg-blue-700 transform hover:scale-[1.02] active:scale-[0.98] 
-                            transition-all duration-300">
+                            transition-all duration-300" onClick={() => navigate('/userUpdatePage')}>
                             Edit Profile
                         </button>
                     </div>

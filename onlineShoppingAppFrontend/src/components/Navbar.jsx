@@ -10,6 +10,10 @@ import { useForm } from 'react-hook-form';
 import { setCurrentProduct } from '../store/slices/currentProduct';
 import { NavLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+import { clearAllQuantities } from '../store/slices/quantitySlice';
+import { clearCart } from '../store/slices/cartSlice';
+
 
 function Navbar() {
   const navigate = useNavigate();
@@ -18,6 +22,8 @@ function Navbar() {
   const { register, handleSubmit } = useForm();
   const products = useSelector(state => state.products.products);
   const cart = useSelector(state => state.cart);
+  const quantity = useSelector(state => state.quantity);
+  const loggedInUser = useSelector(state => state.auth.loggedInUser);
 
   const handleSearch = (data) => {
     const filteredProducts = products.filter(product => product.name === data.searchQuery);
@@ -31,10 +37,28 @@ function Navbar() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    cart.map(async (item) => {
+      const response = await axios.post(
+        `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
+      );
+      console.log(response);
+    });
     toast.success("Logout successful");
     dispatch(setIsLogin(false));
     dispatch(setLoggedInUser(null));
+    dispatch(clearAllQuantities());
+    dispatch(clearCart());
+  };
+
+  const handleCart = async () => {
+    cart.map(async (item) => {
+      const response = await axios.post(
+        `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
+      );
+      console.log(response);
+    });
+    navigate('/cart');
   };
 
   return (
@@ -106,7 +130,7 @@ function Navbar() {
                 Logout
               </button>
               <NavLink to={"/cart"}>
-                <div className='relative'>
+                <div className='relative' onClick={() => handleCart()}>
                   <FaShoppingCart className='text-2xl hover:text-green-400 duration-300' />
                   {
                     cart.length > 0 ? (

@@ -5,6 +5,7 @@ import isLoginReducer from './slices/isLoginSlice'
 import authReducer from './slices/authSlice'
 import cartReducer from './slices/cartSlice'
 import quantityReducer from './slices/quantitySlice'
+import loadingReducer from './slices/loadingSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     isLogin: isLoginReducer,
     cart: cartReducer,
     quantity: quantityReducer,
+    loading: loadingReducer,
   },
 })

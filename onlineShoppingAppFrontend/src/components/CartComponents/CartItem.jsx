@@ -5,9 +5,13 @@ import { setCart } from '../../store/slices/cartSlice';
 import { incrementQuantity, decrementQuantity } from '../../store/slices/quantitySlice';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { setQuantity } from '../../store/slices/quantitySlice';
+import { setLoading } from '../../store/slices/loadingSlice';
 
 export default function CartItem({ cartItem }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loggedInUser = useSelector(state => state.auth.loggedInUser);
   const { product, quantity } = cartItem;
   const reduxQuantity = useSelector(state => state.quantity[product.id] || 1);
@@ -28,6 +32,7 @@ export default function CartItem({ cartItem }) {
 
   const removeHandler = async () => {
     try {
+      dispatch(setLoading(true))
       const response = await axios.delete(
         `http://localhost:8081/api/users/cart/${loggedInUser.id}/${product.id}`
       );
@@ -37,6 +42,8 @@ export default function CartItem({ cartItem }) {
     } catch (error) {
       console.error("Error removing item from cart:", error);
       toast.error("Failed to remove item from cart");
+    } finally {
+      dispatch(setLoading(false))
     }
   };
 
