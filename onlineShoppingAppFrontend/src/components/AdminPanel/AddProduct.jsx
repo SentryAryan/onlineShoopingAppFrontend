@@ -7,12 +7,14 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { setProducts } from '../../store/slices/products';
 import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../store/slices/loadingSlice';
+import Loader from '../common/Loader';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const products = useSelector(state => state.products.products);
-
+  const loading = useSelector(state => state.loading);
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -21,8 +23,8 @@ const AddProduct = () => {
       formData.append('description', data.description);
       formData.append('price', data.price);
       formData.append('quantity', data.quantity);
-
-      const response = await axios.post('http://localhost:8081/api/products', formData, {
+      dispatch(setLoading(true))
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/products`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -33,6 +35,8 @@ const AddProduct = () => {
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -43,15 +47,15 @@ const AddProduct = () => {
         <p className="text-gray-600 mt-2">Fill in the details to add a new product to your inventory</p>
       </div>
 
-      <Form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-sm">
+      {loading ? <Loader /> : <Form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-sm">
         <Row className="mb-4">
           <Col md={4}>
             <Form.Group controlId="formItemName">
               <Form.Label className="font-semibold text-gray-700">Product Name</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Enter item name" 
-                {...register('name')} 
+              <Form.Control
+                type="text"
+                placeholder="Enter item name"
+                {...register('name')}
                 required
                 className="form-control focus:border-green-500 focus:ring-green-500"
               />
@@ -60,10 +64,10 @@ const AddProduct = () => {
           <Col md={4}>
             <Form.Group controlId="formItemPrice">
               <Form.Label className="font-semibold text-gray-700">Price ($)</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Enter item price" 
-                {...register('price')} 
+              <Form.Control
+                type="number"
+                placeholder="Enter item price"
+                {...register('price')}
                 required
                 min="0"
                 step="0.01"
@@ -74,10 +78,10 @@ const AddProduct = () => {
           <Col md={4}>
             <Form.Group controlId="formItemQuantity">
               <Form.Label className="font-semibold text-gray-700">Quantity</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Enter quantity" 
-                {...register('quantity')} 
+              <Form.Control
+                type="number"
+                placeholder="Enter quantity"
+                {...register('quantity')}
                 required
                 min="0"
                 className="form-control focus:border-green-500 focus:ring-green-500"
@@ -90,11 +94,11 @@ const AddProduct = () => {
           <Col md={12}>
             <Form.Group controlId="formItemDescription">
               <Form.Label className="font-semibold text-gray-700">Description</Form.Label>
-              <Form.Control 
-                as="textarea" 
-                rows={3} 
-                placeholder="Enter item description" 
-                {...register('description')} 
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter item description"
+                {...register('description')}
                 required
                 className="form-control focus:border-green-500 focus:ring-green-500"
               />
@@ -107,9 +111,9 @@ const AddProduct = () => {
             <Form.Group controlId="formItemImage">
               <Form.Label className="font-semibold text-gray-700">Upload Image</Form.Label>
               <div className="flex items-center space-x-4">
-                <Form.Control 
-                  type="file" 
-                  {...register('file')} 
+                <Form.Control
+                  type="file"
+                  {...register('file')}
                   required
                   accept="image/*"
                   className="form-control focus:border-green-500 focus:ring-green-500"
@@ -123,8 +127,8 @@ const AddProduct = () => {
         </Row>
 
         <div className="flex justify-end">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="px-6 py-2.5 bg-green-600 text-white font-medium text-sm 
                      leading-tight rounded shadow-md hover:bg-green-700 hover:shadow-lg 
                      focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 
@@ -133,7 +137,7 @@ const AddProduct = () => {
             Add Product
           </Button>
         </div>
-      </Form>
+      </Form>}
     </div>
   );
 };

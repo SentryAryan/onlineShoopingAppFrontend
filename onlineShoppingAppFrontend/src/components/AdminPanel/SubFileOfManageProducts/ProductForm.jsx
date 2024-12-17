@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../store/slices/loadingSlice';
+
 
 const ProductForm = ({ product, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -12,7 +15,7 @@ const ProductForm = ({ product, onSubmit }) => {
         productImage: null,
         currentImageUrl: ''
     });
-
+    const dispatch = useDispatch()
     const [previewImage, setPreviewImage] = useState(null);
     const fileInputRef = useRef(null);
 
@@ -134,21 +137,17 @@ const ProductForm = ({ product, onSubmit }) => {
         try {
             let response;
             if (product) {
+                dispatch(setLoading(true))
                 response = await axios.put(
-                    `http://localhost:8081/api/products/${product.id}`,
-                    formDataToSend,
-                    {
-                        headers: { 'Content-Type': 'multipart/form-data' }
-                    }
+                    `${import.meta.env.VITE_API_BASE_URL}/api/products/${product.id}`,
+                    formDataToSend
                 );
                 toast.success("Product updated successfully");
             } else {
+                dispatch(setLoading(true))
                 response = await axios.post(
-                    'http://localhost:8081/api/products',
-                    formDataToSend,
-                    {
-                        headers: { 'Content-Type': 'multipart/form-data' }
-                    }
+                    `${import.meta.env.VITE_API_BASE_URL}/api/products`,
+                    formDataToSend
                 );
                 toast.success("Product added successfully");
             }
@@ -158,7 +157,10 @@ const ProductForm = ({ product, onSubmit }) => {
             }
         } catch (error) {
             console.error('Error saving product:', error);
+        } finally {
+            dispatch(setLoading(false));
         }
+
     };
 
     return (

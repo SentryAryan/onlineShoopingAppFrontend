@@ -2,12 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaUser, FaEnvelope, FaUserTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../components/common/Loader';
 
 export default function Profile() {
     const loggedInUser = useSelector(state => state.auth.loggedInUser);
     const navigate = useNavigate();
-
+    const loading = useSelector(state => state.loading);
     return (
+        loading ? <Loader/> :
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="max-w-3xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden animate-scaleIn">

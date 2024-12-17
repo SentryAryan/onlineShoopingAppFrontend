@@ -1,11 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaUser, FaEnvelope, FaUserTag } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../components/common/Loader';
 
 export default function AdminPage() {
     const loggedInUser = useSelector(state => state.auth.loggedInUser);
-
+    const navigate = useNavigate()
+    const loading = useSelector(state => state.loading);
     return (
+        loading ? <Loader/> :
         <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white py-20 px-24 sm:px-6 lg:px-8 flex justify-center items-center">
             <div className="w-full max-w-3xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden animate-scaleIn">
@@ -59,7 +63,7 @@ export default function AdminPage() {
 
                         <button className="mt-8 w-full bg-blue-600 text-white py-3 rounded-xl font-semibold 
                             hover:bg-blue-700 transform hover:scale-[1.02] active:scale-[0.98] 
-                            transition-all duration-300">
+                            transition-all duration-300" onClick={() => navigate('/userUpdatePage')}>
                             Edit Profile
                         </button>
                     </div>

@@ -36,10 +36,14 @@ function UserUpdatePage() {
                 role: loggedInUser.role
             };
             dispatch(setLoading(true));
-            const response = await axios.put(`http://localhost:8081/api/users/${loggedInUser.id}`, updateData);
+            const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/users/${loggedInUser.id}`, updateData);
             dispatch(setLoggedInUser(response.data));
             toast.success('Profile updated successfully!');
-            navigate('/profile');
+            if(loggedInUser.role === 'admin'){
+                navigate('/admin/adminPage');
+            }else{
+                navigate('/profile');
+            }
         } catch (error) {
             console.error('Update error:', error);
             toast.error(error.response.data);
@@ -164,7 +168,7 @@ function UserUpdatePage() {
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigate('/profile')}
+                            onClick={() => loggedInUser.role === 'admin' ? navigate('/admin/adminPage') : navigate('/profile')}
                             className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
                         >
                             Cancel

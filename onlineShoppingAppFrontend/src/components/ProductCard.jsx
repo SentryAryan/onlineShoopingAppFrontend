@@ -48,7 +48,7 @@ function ProductCard({ product }) {
       }
       dispatch(setLoading(true))
       const response = await axios.post(
-        `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${product.id}/${reduxQuantity}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/add-to-cart/${loggedInUser.id}/${product.id}/${reduxQuantity}`
       );
       dispatch(setCart(response.data));
       dispatch(setQuantity({ productId: product.id, quantity: reduxQuantity }));
@@ -65,7 +65,7 @@ function ProductCard({ product }) {
     try {
       dispatch(setLoading(true))
       const response = await axios.delete(
-        `http://localhost:8081/api/users/cart/${loggedInUser.id}/${product.id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/cart/${loggedInUser.id}/${product.id}`
       );
       dispatch(setCart(response.data));
       dispatch(setQuantity({ productId: product.id, quantity: 1 }));

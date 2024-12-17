@@ -42,7 +42,7 @@ const ProductDetails = () => {
                 return;
             }
             const response = await axios.post(
-                `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${currentProduct.id}/${reduxQuantity}`
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/add-to-cart/${loggedInUser.id}/${currentProduct.id}/${reduxQuantity}`
             );
             dispatch(setCart(response.data));
             dispatch(setQuantity({ productId: currentProduct.id, quantity: reduxQuantity }));
@@ -56,7 +56,7 @@ const ProductDetails = () => {
     const handleRemoveFromCart = async () => {
         try {
             const response = await axios.delete(
-                `http://localhost:8081/api/users/cart/${loggedInUser.id}/${currentProduct.id}`
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/cart/${loggedInUser.id}/${currentProduct.id}`
             );
             dispatch(setCart(response.data));
             dispatch(setQuantity({ productId: currentProduct.id, quantity: 1 }));

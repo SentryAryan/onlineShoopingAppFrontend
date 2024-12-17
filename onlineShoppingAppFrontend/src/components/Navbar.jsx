@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { clearAllQuantities } from '../store/slices/quantitySlice';
 import { clearCart } from '../store/slices/cartSlice';
-
+import { setLoading } from '../store/slices/loadingSlice';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -38,27 +38,41 @@ function Navbar() {
   };
 
   const handleLogout = async () => {
-    cart.map(async (item) => {
-      const response = await axios.post(
-        `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
-      );
-      console.log(response);
-    });
-    toast.success("Logout successful");
-    dispatch(setIsLogin(false));
-    dispatch(setLoggedInUser(null));
-    dispatch(clearAllQuantities());
-    dispatch(clearCart());
+    try {
+      dispatch(setLoading(true));
+      await Promise.all(cart.map(async (item) => {
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
+        );
+      }));
+      toast.success("Logout successful");
+      dispatch(setIsLogin(false));
+      dispatch(setLoggedInUser(null));
+      dispatch(clearAllQuantities());
+      dispatch(clearCart());
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast.error("Error during logout");
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   const handleCart = async () => {
-    cart.map(async (item) => {
-      const response = await axios.post(
-        `http://localhost:8081/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
-      );
-      console.log(response);
-    });
-    navigate('/cart');
+    try {
+      dispatch(setLoading(true));
+      await Promise.all(cart.map(async (item) => {
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
+        );
+      }));
+      navigate('/cart');
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      toast.error("Error updating cart");
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (

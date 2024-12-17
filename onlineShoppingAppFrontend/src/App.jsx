@@ -44,13 +44,13 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/products')
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
       dispatch(setProducts(response.data))
 
       if (loggedInUser) {
         // Fetch cart data
         dispatch(setLoading(true))
-        const cartResponse = await axios.get(`http://localhost:8081/api/users/cart/${loggedInUser.id}`);
+        const cartResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/cart/${loggedInUser.id}`);
         const cart = cartResponse.data;
         dispatch(setCart(cart));
 

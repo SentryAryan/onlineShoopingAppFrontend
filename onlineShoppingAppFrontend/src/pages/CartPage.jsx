@@ -25,10 +25,10 @@ export default function CartPage() {
         dispatch(setLoading(true));
         try {
             await Promise.all(cart.map(async (item) => {
-                await axios.put(`http://localhost:8081/api/products/reduce-quantity/${item.product.id}/${reduxQuantity[item.product.id]}`);
-                await axios.delete(`http://localhost:8081/api/users/empty-cart/${loggedInUser.id}`);
+                await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/products/reduce-quantity/${item.product.id}/${reduxQuantity[item.product.id]}`);
+                await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/users/empty-cart/${loggedInUser.id}`);
             }));
-            const response = await axios.get('http://localhost:8081/api/products');
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`);
             dispatch(clearAllQuantities());
             dispatch(clearCart());
             dispatch(setProducts(response.data));

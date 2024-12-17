@@ -34,7 +34,7 @@ export default function CartItem({ cartItem }) {
     try {
       dispatch(setLoading(true))
       const response = await axios.delete(
-        `http://localhost:8081/api/users/cart/${loggedInUser.id}/${product.id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/cart/${loggedInUser.id}/${product.id}`
       );
       dispatch(setCart(response.data));
       dispatch(setQuantity({ productId: product.id, quantity: 1 }));

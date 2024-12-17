@@ -4,13 +4,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setProducts } from '../../../store/slices/products';
-
+import { setLoading } from '../../../store/slices/loadingSlice';
 
 const ProductList = ({ productList, onEdit, onDelete }) => {
     const dispatch = useDispatch();
 
     const handleDelete = async (id) => {
-        const response = await axios.delete(`http://localhost:8081/api/products/${id}`)
+        dispatch(setLoading(true))
+        const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`)
         if (response.status === 200) {
             toast.success('Product deleted successfully');
         } else {
@@ -18,6 +19,7 @@ const ProductList = ({ productList, onEdit, onDelete }) => {
         }
         const updatedProductList = productList.filter(product => product.id !== id);
         dispatch(setProducts(updatedProductList));
+        dispatch(setLoading(false))
     }
     return (
         <div className="mt-4">

@@ -1,18 +1,25 @@
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '../store/slices/loadingSlice'
 
 function ContactUs() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
+    const dispatch = useDispatch()
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:8081/api/contact/send', data);
+            dispatch(setLoading(true))
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/contact/send`, data);
             console.log(response.data);
             reset(); // Clear form after successful submission
-            // You could add a success message here
+            toast.success('Message sent successfully!');
         } catch (error) {
             console.error('Contact submission error:', error);
-            // You could add an error message here
+            toast.error('Failed to send message');
+        } finally {
+            dispatch(setLoading(false))
         }
     }
 

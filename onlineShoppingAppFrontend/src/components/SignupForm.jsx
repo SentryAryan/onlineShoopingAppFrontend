@@ -1,18 +1,27 @@
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '../store/slices/loadingSlice'
 
 function SignupForm() {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:8081/api/users', data)
+            dispatch(setLoading(true))
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, data)
             console.log(response.data);
+            toast.success('Account created successfully! Please login.')
             navigate('/login')
         } catch (error) {
             console.error('Signup error:', error)
+            toast.error(error.response?.data || 'Failed to create account')
+        } finally {
+            dispatch(setLoading(false))
         }
     }
 

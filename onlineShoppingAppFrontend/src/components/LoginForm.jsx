@@ -14,7 +14,7 @@ function LoginForm() {
     const onSubmit = async (data) => {
         try {
             const response = await axios.post(
-                `http://localhost:8081/api/users/login?email=${data.email}&password=${data.password}`
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/login?email=${data.email}&password=${data.password}`
             );
             toast.success("Login successful");
             console.log(response);

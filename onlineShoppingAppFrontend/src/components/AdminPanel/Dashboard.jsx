@@ -2,11 +2,15 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../store/slices/loadingSlice';
+import Loader from '../common/Loader';
 
 const Dashboard = () => {
   // Updated fetchedProducts array with unique IDs and placeholders for product images
   const fetchedProducts = useSelector(state => state.products.products);
-
+  const loading = useSelector(state => state.loading)
+  const dispatch = useDispatch()
   const fetchData = async () => {
     
   }
@@ -36,7 +40,7 @@ const Dashboard = () => {
           </thead>
           <tbody>
             {fetchedProducts.length > 0 ? (
-              fetchedProducts.map((product, index) => (
+              loading ? <Loader/> : fetchedProducts.map((product, index) => (
                 <tr key={product.id}>
                   <td>{index + 1}</td>
                   <td>{product.id}</td>

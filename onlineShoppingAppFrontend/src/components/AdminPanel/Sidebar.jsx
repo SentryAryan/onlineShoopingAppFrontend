@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsLogin } from '../../store/slices/isLoginSlice';
 import { setLoggedInUser } from '../../store/slices/authSlice';
+import toast from 'react-hot-toast';
 
 const Sidebar = () => {
   const [isClosed, setIsClosed] = useState(false);
@@ -31,6 +32,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     dispatch(setIsLogin(false));
     dispatch(setLoggedInUser(null));
+    navigate('/');
     toast.success("Logout successful");
   };
 
@@ -114,14 +116,14 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li className="item">
-              <NavLink to="/" className="nav_link">
+              <div className="nav_link">
                 <div className="submenu_item">
                   <span className="navlink_icon">
                     <FontAwesomeIcon icon={faChartPie} />
                   </span>
                   <span className="navlink" onClick={() => handleLogout()}>Logout</span>
                 </div>
-              </NavLink>
+              </div>
             </li>
           </ul >
         </div >
