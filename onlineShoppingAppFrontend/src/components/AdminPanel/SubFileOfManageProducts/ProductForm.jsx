@@ -23,9 +23,10 @@ const ProductForm = ({ product, onSubmit }) => {
 
     const urlToFile = async (url) => {
         try {
-            const response = await fetch(url);
+            const secureUrl = url.replace('http://', 'https://');
+            const response = await fetch(secureUrl);
             const blob = await response.blob();
-            const filename = url.split('/').pop();
+            const filename = secureUrl.split('/').pop();
             return new File([blob], filename, { type: blob.type });
         } catch (error) {
             console.error('Error converting URL to File:', error);
@@ -35,18 +36,20 @@ const ProductForm = ({ product, onSubmit }) => {
 
     useEffect(() => {
         if (product) {
+            const secureImageUrl = product.imageUrl ? product.imageUrl.replace('http://', 'https://') : '';
+            
             setFormData({
                 productName: product.name || '',
                 price: product.price || '',
                 description: product.description || '',
                 quantity: product.quantity || '',
                 productImage: null,
-                currentImageUrl: product.imageUrl || ''
+                currentImageUrl: secureImageUrl
             });
-            setPreviewImage(product.imageUrl || null);
+            setPreviewImage(secureImageUrl || null);
 
-            if (product.imageUrl) {
-                urlToFile(product.imageUrl).then(file => {
+            if (secureImageUrl) {
+                urlToFile(secureImageUrl).then(file => {
                     if (file) {
                         setFormData(prev => ({
                             ...prev,
