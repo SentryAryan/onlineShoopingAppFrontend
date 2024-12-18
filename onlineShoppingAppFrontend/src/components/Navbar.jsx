@@ -56,6 +56,7 @@ function Navbar() {
       toast.error("Error during logout");
     } finally {
       dispatch(setLoading(false));
+      navigate('/');
     }
   };
 
