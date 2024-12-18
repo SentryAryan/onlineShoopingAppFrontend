@@ -74,7 +74,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li className="item">
-              <NavLink to="/manage-orders" className="nav_link">
+              <NavLink to="/admin/settings" className="nav_link">
                 <div className="submenu_item">
                   <span className="navlink_icon">
                     <FontAwesomeIcon icon={faClipboardList} />
