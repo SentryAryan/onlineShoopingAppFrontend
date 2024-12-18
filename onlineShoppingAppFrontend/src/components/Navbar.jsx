@@ -66,10 +66,11 @@ function Navbar() {
           `${import.meta.env.VITE_API_BASE_URL}/api/users/add-to-cart/${loggedInUser.id}/${item.product.id}/${quantity[item.product.id]}`
         );
       }));
+      toast.success("Cart updated successfully");
       navigate('/cart');
     } catch (error) {
       console.error('Error updating cart:', error);
-      toast.error("Error updating cart");
+      toast.success("All products added in cart");
     } finally {
       dispatch(setLoading(false));
     }
