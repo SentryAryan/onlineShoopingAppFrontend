@@ -55,22 +55,20 @@ const ProductList = ({ productList, onEdit, onDelete }) => {
                             </td>
                             <td className='align-middle text-center'>
                                 <div className='d-flex justify-content-center gap-2'>
-                                    <Button
-                                        variant="warning"
-                                        size="sm"
+                                    <button
                                         onClick={() => onEdit(product)}
+                                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
                                     >
                                         Edit
-                                    </Button>
-                                    <Button
-                                        variant="danger"
-                                        size="sm"
+                                    </button>
+                                    <button
                                         onClick={() => {
                                             handleDelete(product.id);
                                         }}
+                                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200 text-sm font-medium"
                                     >
                                         Delete
-                                    </Button>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
