@@ -42,7 +42,7 @@ const ProductList = ({ productList, onEdit, onDelete }) => {
                             <td>{index + 1}</td>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
-                            <td>₹{product.price}</td>
+                            <td>${product.price}</td>
                             <td>{product.quantity}</td>
                             <td>{product.description}</td>
                             <td className='align-middle text-center'>
