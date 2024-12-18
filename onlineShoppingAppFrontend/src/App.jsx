@@ -44,6 +44,7 @@ function App() {
 
   const fetchData = async () => {
     try {
+      dispatch(setLoading(true))
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
       dispatch(setProducts(response.data))
 
