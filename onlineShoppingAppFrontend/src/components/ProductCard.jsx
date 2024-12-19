@@ -82,13 +82,14 @@ function ProductCard({ product }) {
     <div className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 
                     transform hover:-translate-y-1 overflow-hidden">
         <div 
-            className="relative h-56 overflow-hidden bg-gray-50 cursor-pointer" 
+            className="relative aspect-square overflow-hidden bg-gray-50 cursor-pointer" 
             onClick={handleProductClick}
         >
             <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-contain p-4 hover:scale-105 transition-transform duration-300"
+                loading="lazy"
             />
             {product.quantity < 5 && (
                 <div className="absolute top-3 right-3">
