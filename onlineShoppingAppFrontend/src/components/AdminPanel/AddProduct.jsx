@@ -15,6 +15,26 @@ const AddProduct = () => {
   const { register, handleSubmit, reset } = useForm();
   const products = useSelector(state => state.products.products);
   const loading = useSelector(state => state.loading);
+
+  // Define product categories
+  const categories = [
+    "Electronics",
+    "Clothing",
+    "Books",
+    "Home & Kitchen",
+    "Sports & Outdoors",
+    "Beauty & Personal Care",
+    "Toys & Games",
+    "Health & Wellness",
+    "Automotive",
+    "Pet Supplies",
+    "Jewelry",
+    "Food & Beverages",
+    "Office Products",
+    "Musical Instruments",
+    "Tools & Home Improvement"
+  ];
+
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -23,7 +43,9 @@ const AddProduct = () => {
       formData.append('description', data.description);
       formData.append('price', data.price);
       formData.append('quantity', data.quantity);
-      dispatch(setLoading(true))
+      formData.append('category', data.category); // Add category to form data
+      
+      dispatch(setLoading(true));
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/products`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -31,7 +53,7 @@ const AddProduct = () => {
       });
       dispatch(setProducts([...products, response.data]));
       toast.success('Product added successfully');
-      reset(); // Reset form after successful submission
+      reset();
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product');
@@ -86,6 +108,26 @@ const AddProduct = () => {
                 min="0"
                 className="form-control focus:border-green-500 focus:ring-green-500"
               />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className="mb-4">
+          <Col md={12}>
+            <Form.Group controlId="formItemCategory">
+              <Form.Label className="font-semibold text-gray-700">Category</Form.Label>
+              <Form.Select
+                {...register('category')}
+                required
+                className="form-control focus:border-green-500 focus:ring-green-500"
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </Col>
         </Row>

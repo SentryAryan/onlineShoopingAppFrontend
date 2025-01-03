@@ -6,12 +6,13 @@ import { useDispatch } from 'react-redux';
 import { setLoading } from '../../../store/slices/loadingSlice';
 
 
-const ProductForm = ({ product, onSubmit }) => {
+const ProductForm = ({ product, onSubmit, categories }) => {
     const [formData, setFormData] = useState({
         productName: '',
         price: '',
         description: '',
         quantity: '',
+        category: '',
         productImage: null,
         currentImageUrl: ''
     });
@@ -43,6 +44,7 @@ const ProductForm = ({ product, onSubmit }) => {
                 price: product.price || '',
                 description: product.description || '',
                 quantity: product.quantity || '',
+                category: product.category || '',
                 productImage: null,
                 currentImageUrl: secureImageUrl
             });
@@ -68,6 +70,7 @@ const ProductForm = ({ product, onSubmit }) => {
                 price: '',
                 description: '',
                 quantity: '',
+                category: '',
                 productImage: null,
                 currentImageUrl: ''
             });
@@ -130,6 +133,7 @@ const ProductForm = ({ product, onSubmit }) => {
         formDataToSend.append('description', formData.description);
         formDataToSend.append('price', formData.price);
         formDataToSend.append('quantity', formData.quantity);
+        formDataToSend.append('category', formData.category);
         
         if (formData.productImage) {
             formDataToSend.append('file', formData.productImage);
@@ -232,6 +236,28 @@ const ProductForm = ({ product, onSubmit }) => {
                             className="form-control focus:border-green-500 focus:ring-green-500"
                             placeholder="Enter product description"
                         />
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row className="mb-4">
+                <Col md={12}>
+                    <Form.Group controlId="category">
+                        <Form.Label className="font-semibold text-gray-700">Category</Form.Label>
+                        <Form.Select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            required
+                            className="form-control focus:border-green-500 focus:ring-green-500"
+                        >
+                            <option value="">Select a category</option>
+                            {categories.map((category) => (
+                                <option key={category} value={category}>
+                                    {category}
+                                </option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
                 </Col>
             </Row>
