@@ -29,6 +29,7 @@ const ProductList = ({ productList, onEdit, onDelete }) => {
                         <th>S.no</th>
                         <th>Product Id</th>
                         <th>Product Name</th>
+                        <th>Category</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Description</th>
@@ -42,6 +43,7 @@ const ProductList = ({ productList, onEdit, onDelete }) => {
                             <td>{index + 1}</td>
                             <td>{product.id}</td>
                             <td>{product.name}</td>
+                            <td>{product.category}</td>
                             <td>${product.price}</td>
                             <td>{product.quantity}</td>
                             <td>{product.description}</td>

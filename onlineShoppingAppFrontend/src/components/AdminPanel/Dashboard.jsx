@@ -32,6 +32,7 @@ const Dashboard = () => {
               <th>S.no</th>
               <th>Product Id</th>
               <th>Product Name</th>
+              <th>Category</th>
               <th>Price</th>
               <th>Description</th>
               <th>Quantity</th>
@@ -45,6 +46,7 @@ const Dashboard = () => {
                   <td>{index + 1}</td>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
+                  <td>{product.category}</td>
                   <td>${product.price}</td>
                   <td>{product.description}</td>
                   <td>{product.quantity}</td>

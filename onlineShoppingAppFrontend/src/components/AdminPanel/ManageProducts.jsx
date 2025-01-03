@@ -15,6 +15,25 @@ const ManageProducts = () => {
     const dispatch = useDispatch();
     const loading = useSelector(state => state.loading);
 
+    // Define product categories - same as in AddProduct
+    const categories = [
+        "Electronics",
+        "Clothing",
+        "Books",
+        "Home & Kitchen",
+        "Sports & Outdoors",
+        "Beauty & Personal Care",
+        "Toys & Games",
+        "Health & Wellness",
+        "Automotive",
+        "Pet Supplies",
+        "Jewelry",
+        "Food & Beverages",
+        "Office Products",
+        "Musical Instruments",
+        "Tools & Home Improvement"
+    ];
+
     const handleEditProduct = (product) => {
         setCurrentProduct(product);
         setShowModal(true);
@@ -58,6 +77,7 @@ const ManageProducts = () => {
                 productList={productList}
                 onEdit={handleEditProduct}
                 onDelete={handleDeleteProduct}
+                categories={categories} // Pass categories to ProductList
             />
 
             {loading ? <Loader/> : <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
@@ -65,7 +85,11 @@ const ManageProducts = () => {
                     <Modal.Title>{currentProduct ? 'Edit Product' : 'Add Product'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <ProductForm onSubmit={handleFormSubmit} product={currentProduct} />
+                    <ProductForm 
+                        onSubmit={handleFormSubmit} 
+                        product={currentProduct}
+                        categories={categories} // Pass categories to ProductForm
+                    />
                 </Modal.Body>
             </Modal>}
         </div>
